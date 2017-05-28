@@ -28,13 +28,16 @@ li {
 
 #Main {
     padding: 10px;
+    clear: both;
 }
 
 #User {
     padding: 10px;
+    clear: both;
 }
 
 #Content {
+    clear: both;
     padding: 10px;
 }
 
