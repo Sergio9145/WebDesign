@@ -31,7 +31,7 @@ li {
 */
 
 #Header {
-    line-height: 90px; 
+    line-height: 90px;
 }
 
 .header_item {
@@ -39,7 +39,13 @@ li {
 }
 
 .a_icon {
+    float:left;
     margin: 5px;
+}
+
+#search {
+    margin: 0px 100px;
+    width: 200px;
 }
 
 #Main {
@@ -55,11 +61,6 @@ li {
 #Content {
     clear: both;
     padding: 10px;
-}
-
-#search {
-    margin: 0px 120px;
-    width: 200px;
 }
 
 #button {
