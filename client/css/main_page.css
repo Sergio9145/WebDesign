@@ -88,9 +88,9 @@ li {
 }
 
 .photo_content{
-        height: 300;
-        width: 220px;
-        padding: 10px;
+    height: 200;
+    width: 200px;
+    padding: 1px;
 }
 
 .footer_item {
