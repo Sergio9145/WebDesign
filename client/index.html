@@ -1,19 +1,63 @@
 <!doctype html>
+<!--
+
+Insagram Clone by Sergii Opryshko, Serhii Sukhin and Saurav Bedi
+
+-->
 <html lang="en" ng-app>
   <head>
-    <title>Chat Example</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
-    <style>
-      body {
-        padding-top: 60px;
-      }
-    </style>
-  </head>
-  <body>
-    <p>Hello world!</p>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-  </body>
+    <title>Instagram Clone</title>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--<link rel="stylesheet" href="/css/bootstrap.min.css">-->
+    <!--<link rel="stylesheet" href="/css/bootstrap-responsive.min.css">-->
+    <link rel="stylesheet" href="css/main_page.css">
+</head>
+<body>
+    <center>
+        <div id="Header">
+            <img id="logo" src="img/Logo.png" alt="Official Logo">
+            <input id="Search" type="text" name="search" placeholder="Search">
+            <a><img id="explore" src="img/Explore.png" alt="Explore Button"></a>
+            <a><img id="like" src="img/Like.png" alt="Like Button"></a>
+            <a><img id="profile" src ="img/Profile.png" alt="Profile Button"></a>
+        </div>
+        
+        <div id="Main">
+            <div id="User">
+                <div style="float: left;">
+                    <img id="Profile_Photo" src="img/Kitty1.png" alt="User's Picture">
+                </div>
+                <div style="float: left;">
+                    <ul class="vert">
+                        <li>Username</li>
+                        <li><button type="button" disabled>Edit Profile</button></li>
+                        <img src="img/Settings.png" alt="Settings"/>
+                    </ul>
+                    <ul class="vert">
+                        <a class="aBtn" href="">3 Post</a>
+                        <a class="aBtn" href="">0 Followers</a>
+                        <a class="aBtn" href="">0 Following</a>
+                    </ul>
+                </div>
+            </div>
+        
+            <div id="Content" style="clear:both;">
+                <img class="photoContent" src=http://cdn.playbuzz.com/cdn/21ab7243-0380-420f-914c-63d4ce59aa3c/bf1bfae7-1163-4f90-a3b0-4ce677e91f1d.jpg alt="kitty"> 
+                <img class="photoContent" src=https://upload.wikimedia.org/wikipedia/commons/e/e2/Geoffroy%27s_Cat.jpg alt="kitty">
+                <img class="photoContent" src=http://www.2ndchanceanimalcenter.org/cats/slides/shorty-12.4.2016-new.jpg alt="kitty">
+            </div>
+        </div> <!-- Main-->
+        
+        <footer>
+            <div class="Footer_item" style="float: left;"><a href="">ABOUT</a></div>
+            <div class="Footer_item" style="float: left;"><a href="">SUPPORT</a></div>
+            <div class="Footer_item" style="float: left;"><a href="">LANGUAGE</a></div>
+            <div class="Footer_item" style="float: right;">&copy; 2017 NoKidding Dev.</div>
+        </footer>
+
+    </center>
+    <!--<script src="/js/jquery.min.js"></script>-->
+    <!--<script src="/js/bootstrap.min.js"></script>-->
+    
+</body>
 </html>

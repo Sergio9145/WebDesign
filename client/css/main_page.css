@@ -1,0 +1,59 @@
+    body {
+        background-color: white;
+        overflow: auto;
+        width: 800px;
+        margin:auto;
+    }
+    
+    a {
+        text-decoration:none;
+    }
+    
+    .aBtn {
+        margin: 0 10 0 0;
+    }
+
+    li {
+        display: inline-block;
+    }
+    
+    .Footer_item {
+        padding: 10px;
+    }
+    
+    #Header {
+        
+    }
+    
+    #Main {
+        padding: 10px;
+    }
+    
+    #User {
+        padding: 10px;
+    }
+    
+    #Content {
+        padding: 10px;
+    }
+    
+    #Search {
+        margin: 0px 60px;
+    }
+    
+    #button {
+        background: transparent;
+        border: none !important;
+    }
+    
+    #Profile_Photo {
+        border-radius: 50%;
+        width: 160px;
+        height: 160px;
+    }
+    
+    .photoContent{
+            height: 300;
+            width: 230px;
+            padding: 10px;
+    }
