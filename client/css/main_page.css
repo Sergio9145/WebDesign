@@ -1,6 +1,5 @@
 body {
     background-color: white;
-    overflow: auto;
     width: 800px;
     margin:auto;
 }
@@ -9,21 +8,38 @@ a {
     text-decoration:none;
 }
 
-.aBtn {
+.a_btn {
     margin: 0 10 0 0;
 }
 
 li {
     display: inline-block;
 }
+/*
+
+.icon_logo .icon_explore .icon_like .icon_profile{
+  background-image: url(sprite.png);
+  background-repeat: no-repeat;
+}
+
+.icon_logo {
+    background-repeat: no-repeat;
+    background-position: -177px 0;
+    height: 35px;
+    width: 176px;
+}
+*/
 
 #Header {
-
+    line-height: 90px; 
 }
 
 .header_item {
-    height:30;
     float:left;
+}
+
+.a_icon {
+    margin: 5px;
 }
 
 #Main {
@@ -42,8 +58,8 @@ li {
 }
 
 #search {
-    margin: 15px 80px;
-    width:200px;
+    margin: 0px 120px;
+    width: 200px;
 }
 
 #button {
