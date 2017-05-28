@@ -1,59 +1,95 @@
-    body {
-        background-color: white;
-        overflow: auto;
-        width: 800px;
-        margin:auto;
-    }
-    
-    a {
-        text-decoration:none;
-    }
-    
-    .aBtn {
-        margin: 0 10 0 0;
-    }
+body {
+    background-color: white;
+    overflow: auto;
+    width: 800px;
+    margin:auto;
+}
 
-    li {
-        display: inline-block;
-    }
-    
-    .Footer_item {
+a {
+    text-decoration:none;
+}
+
+.aBtn {
+    margin: 0 10 0 0;
+}
+
+li {
+    display: inline-block;
+}
+
+#Header {
+
+}
+
+.header_item {
+    height:30;
+    float:left;
+}
+
+#Main {
+    padding: 10px;
+}
+
+#User {
+    padding: 10px;
+}
+
+#Content {
+    padding: 10px;
+}
+
+#search {
+    margin: 15px 80px;
+    width:200px;
+}
+
+#button {
+    background: transparent;
+    border: none !important;
+}
+
+#profile_photo {
+    border-radius: 50%;
+    width: 160px;
+    height: 160px;
+}
+
+#user_name {
+    padding: 10px;
+    float: left;
+}
+
+#edit_profile {
+    padding: 10px;
+    float: left;
+}
+
+#settings {
+    padding: 10px;
+    float: left;
+}
+
+#posts {
+    padding: 10px;
+    float: left;
+}
+
+#followers {
+    padding: 10px;
+    float: left;
+}
+
+#following {
+    padding: 10px;
+    float: left;
+}
+
+.photo_content{
+        height: 300;
+        width: 220px;
         padding: 10px;
-    }
-    
-    #Header {
-        
-    }
-    
-    #Main {
-        padding: 10px;
-    }
-    
-    #User {
-        padding: 10px;
-    }
-    
-    #Content {
-        padding: 10px;
-    }
-    
-    #Search {
-        margin: 0px 60px;
-    }
-    
-    #button {
-        background: transparent;
-        border: none !important;
-    }
-    
-    #Profile_Photo {
-        border-radius: 50%;
-        width: 160px;
-        height: 160px;
-    }
-    
-    .photoContent{
-            height: 300;
-            width: 230px;
-            padding: 10px;
-    }
+}
+
+.footer_item {
+    padding: 10px;
+}
