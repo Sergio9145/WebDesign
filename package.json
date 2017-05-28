@@ -7,5 +7,7 @@
   "author": "Sergiy Opryshko sopryshko9145@conestogac.on.ca",
   "dependencies": {
     "express": "~3.2.4",
+    "mongodb": "^2.2.27",
+    "mongoose": "^4.10.3"
   }
 }
