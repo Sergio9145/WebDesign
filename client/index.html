@@ -1,30 +1,31 @@
-<!doctype html>
-<!--
-Insagram Clone
+<!-- Instagram Clone
 
 Conestoga College, Mobile Solutions Development program
 
-Authors: Sergii Opryshko, Serhii Sukhin, Saurav Bedi
+Author: Sergii Opryshko 7759145
 	
-All copyrights reserved.
--->
+All copyrights reserved. -->
+
+<!doctype html>
 <html lang="en" ng-app>
   <head>
     <title>Instagram Clone</title>
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-    <!--<link rel="stylesheet" href="/css/bootstrap.min.css">-->
-    <!--<link rel="stylesheet" href="/css/bootstrap-responsive.min.css">-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- COMMON STYLES -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/main_page.css">
+    
+    <!-- COMMON SCRIPTS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>$(function(){$("#headerContent").load("header.html");});</script>
 </head>
-<body><center>
-    <div id="Header">
-        <div class="header_item"><a class="a_icon" href=""><img src="img/Logo.png" alt="Instagram Logo"/></a></div>
-        <div class="header_item"><input id="search" type="text" name="search" placeholder="Search"></div>
-        <div class="header_item"><a class="a_icon" href=""><img id="explore" src="img/Explore.png" alt="Explore Button"></a></div>
-        <div class="header_item"><a class="a_icon" href=""><img id="like" src="img/Like.png" alt="Like Button"></a></div>
-        <div class="header_item"><a class="a_icon" href=""><img id="profile" src ="img/Profile.png" alt="Profile Button"></a></div>
-    </div>
 
+<body><center>
+    <div id="headerContent"></div>
+    
     <div id="Main">
         <div id="User">
             <div style="float: left; padding: 15px;">
@@ -37,7 +38,7 @@ All copyrights reserved.
                     <div id=settings><img src="img/Settings.png" alt="Settings"/></div>
                 </div>
                 <div style="clear:both;"> <!-- Second row -->
-                    <div id="posts" style="float: left;"><a class="a_btn" href="">3 Post</a></div>
+                    <div id="posts" style="float: left;"><a class="a_btn" href="posts.html">Posts</a></div>
                     <div id="followers" style="float: left;"><a class="a_btn" href="">0 Followers</a></div>
                     <div id="following" style="float: left;"><a class="a_btn" href="">0 Following</a></div>
                 </div>
@@ -69,9 +70,6 @@ All copyrights reserved.
         <div class="footer_item" style="float: left;"><a href="">LANGUAGE</a></div>
         <div class="footer_item" style="float: right;">&copy; 2017 NoKidding Dev.</div>
     </footer>
-            
-    <!--<script src="/js/jquery.min.js"></script>-->
-    <!--<script src="/js/bootstrap.min.js"></script>-->
     
 </center></body>
 </html>

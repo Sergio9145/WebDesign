@@ -30,22 +30,14 @@ li {
 }
 */
 
-#Header {
-    line-height: 90px;
-}
-
-.header_item {
-    float:left;
-}
-
 .a_icon {
-    float:left;
-    margin: 5px;
+    margin: 8px 0px;
 }
 
-#search {
-    margin: 0px 100px;
-    width: 200px;
+.search {
+    margin: 15px 60px;
+    width: 230px;
+    height: 24px;
 }
 
 #Main {

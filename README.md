@@ -1,7 +1,7 @@
-INSTAGRAM CLONE
+Instagram Clone
 
-Conestoga College, Mobile Solutions Development program 2017
+Conestoga College, Mobile Solutions Development program
 
-Authors: Sergii Opryshko, Serhii Sukhin, Saurav Bedi.
+Author: Sergii Opryshko 7759145
 	
 All copyrights reserved.
