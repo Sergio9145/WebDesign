@@ -16,7 +16,7 @@ li {
     display: inline-block;
 }
 /*
-
+/* FOR FUTURE USE:
 .icon_logo .icon_explore .icon_like .icon_profile{
   background-image: url(sprite.png);
   background-repeat: no-repeat;
@@ -97,9 +97,8 @@ li {
 }
 
 .photo_content{
-    height: 200;
-    width: 200px;
-    padding: 1px;
+    /*height: 300px;*/
+    /*width: 300px;*/
 }
 
 .footer_item {

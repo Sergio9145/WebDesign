@@ -9,7 +9,7 @@ All copyrights reserved. -->
 <!doctype html>
 <html lang="en" ng-app>
   <head>
-    <title>Posts</title>
+    <title>Profile</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
@@ -26,22 +26,15 @@ All copyrights reserved. -->
     <script>$(function(){$("#footerContent").load("footer.html");});</script>
     
     <!-- ONLY FOR THIS PAGE -->
-    <script>$(function(){$("#bodyContent").load("posts_content.html");});</script>
-    
-    <!-- GET/POST PROCESSING -->
-    <script>function onload(){
-            Promise.resolve()
-            .then(function(){
-                
-            })
-        }
-    </script>
+    <script>$(function(){$("#bodyContent").load("profile_content.html");});</script>
 </head>
 
-<body onload='onload();'>
+<body>
     <div id="headerContent"></div>
     
     <div id="bodyContent"></div>
-    
+
     <div id="footerContent"></div>
+    
 </body>
+</html>
