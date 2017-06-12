@@ -20,46 +20,63 @@ var Post = require('./models/Post.js');
 // Establish mLab connection
 mongoose.connect('mongodb://instagram_user:instagram982@ds159371.mlab.com:59371/webdesign_db');
 
-// Refers to a Collection in mLab:
-var post1 = new Post({
-  image: './client/img/kitty1.jpg',
-  comment: 'cool pic!',
-  likeCount: 0,
-  feedbackCount:0
-});
-
-// var post2 = new Post({
-//   image: './client/img/kitty2.jpg',
-//   comment: 'nice pic!',
-//   likeCount: 0,
-//   feedbackCount:0
-// });
-
-post1.save(function(err) {
-  if (err) {
-    console.log(err);
-  }
-  else {
-    console.log('posted');
-  }
-});
-
-// post2.save();
-
 // Static usage:
+//tell the router (ie. express) where to find static files
 router.use(express.static(path.resolve(__dirname, 'client')));
+//tell the router to parse JSON data for us and put it into req.body
+router.use(express.bodyParser());
+
+//tell the router how to handle a post request to /bodyContent
+router.post('/bodyContent', function(req, res){
+  console.log('Client sends POST request for \'bodyContent\' in posts.html');
+  
+  //go find all the posts in the database
+  Post.find({})
+  .then(function(paths){
+    //send them to the client in JSON format
+    res.json(paths);
+  });
+});
+
+var postCounter = 0;
+router.post('/addPost', function(req, res){
+	console.log('Client sends POST request for \'addPost\' in posts.html');
+	
+	postCounter++;
+	if (postCounter > 5) postCounter = 1;
+
+	var post1 = new Post({
+		image: 'img/kitty' + postCounter + '.jpg',
+		comment: 'Cool picture!',
+		likeCount: 0,
+		feedbackCount: 0
+	});
+	
+	post1.save(function(err) {
+	  if (err) {
+	    console.log(err);
+	  }
+	  else {
+	    console.log('Post #' + postCounter + ' created!');
+	  }
+	});
+	
+	//go find all the posts in the database
+	Post.find({})
+	.then(function(paths){
+	//send them to the client in JSON format
+	res.json(paths);
+	});
+});
+    
+// NOT NECESSARY GET REQUEST?
 
 // What node.js does on get request:
-router.get('/', function(req, res) {
-  console.log('client requests posts.html');
-  res.sendfile(path.join(__dirname, 'client/view', 'posts.html'));
-});
-
-router.post('/', function(req, res) {
-
-});
+// router.get('/bodyContent', function(req, res) {
+//   console.log('Client requests bodyContent for posts.html');
+//   res.sendfile(path.join(__dirname, 'client/view', 'posts.html'));
+// });
 
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
-  var addr = server.address();
-  console.log("Chat server listening at", addr.address + ":" + addr.port);
+  console.log("Instagram clone ready!");
 });

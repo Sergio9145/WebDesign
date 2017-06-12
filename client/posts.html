@@ -26,20 +26,95 @@ All copyrights reserved. -->
     <script>$(function(){$("#footerContent").load("footer.html");});</script>
     
     <!-- ONLY FOR THIS PAGE -->
-    <script>$(function(){$("#bodyContent").load("posts_content.html");});</script>
+    <!--<script>$(function(){$("#bodyContent").load("posts_content.html");});</script>-->
     
     <!-- GET/POST PROCESSING -->
-    <script>function onload(){
-            Promise.resolve()
-            .then(function(){
-                
-            })
-        }
+    <script>
+    //onLoad function, to be executed when page is completed loaded by browser
+    function onload(){
+        //start a promise chain
+        Promise.resolve()
+        .then(function(){
+            //jQuery function to request all the posts from the server
+            //the 'return' is required. Otherwise, the subsequent then will not wait for this to complete
+            return $.post('bodyContent');
+        })
+        //when the server responds, we'll execute this code
+        .then(function(posts){
+            //jQuery function to set the innerHTML of the div with id = 'bodyContent' to empty
+            $('#bodyContent').html('');
+            //loop over each post item in the posts array
+            posts.forEach(function(post){
+                //jQuery function to append to the innterHTML of the div with id = 'bodyContent'
+                $('#bodyContent').append(
+                    //remember the id in a data-element (we can define as many of our own as needed)
+                    '<div data-postId="' + post._id + '">' +
+                    //set the image url in the img tag. This will force the browser to go get it
+                    '<img src="' + post.image + '" style="width:300px;"/>' +
+                    //set the comment into a paragraph
+                    '<p>Comment: ' + post.comment + '</p>' +
+                    //set the like count
+                    '<p>Like Count: ' + 
+                    //use a span with an id so the javascript can find this easily later
+                    '<span id ="like' + post._id + '">' + post.likeCount + '</span>' + 
+                    '</p>' +
+                    //set up the click event to call likeClick() with the id of this item as a parameter
+                    '<button onclick="likeClick(\'' + post._id + '\');">Like</button>' +
+                    '</div>'
+                );
+            });
+        })
+        .catch(function(err){
+            //always include a catch for exceptions
+            console.log(err);
+        });
+    } // onload()
+
+    function onAddPost(){
+	    //start a promise chain
+	    Promise.resolve()
+	    .then(function(){
+	        //jQuery function to request all the posts from the server
+	        //the 'return' is required. Otherwise, the subsequent then will not wait for this to complete
+	        return $.post('addPost');
+	    })
+        //when the server responds, we'll execute this code
+        .then(function(posts){
+            //jQuery function to set the innerHTML of the div with id = 'bodyContent' to empty
+            $('#bodyContent').html('');
+            //loop over each post item in the posts array
+            posts.forEach(function(post){
+                //jQuery function to append to the innterHTML of the div with id = 'bodyContent'
+                $('#bodyContent').append(
+                    //remember the id in a data-element (we can define as many of our own as needed)
+                    '<div data-postId="' + post._id + '">' +
+                    //set the image url in the img tag. This will force the browser to go get it
+                    '<img src="' + post.image + '" style="width:300px;"/>' +
+                    //set the comment into a paragraph
+                    '<p>Comment: ' + post.comment + '</p>' +
+                    //set the like count
+                    '<p>Like Count: ' + 
+                    //use a span with an id so the javascript can find this easily later
+                    '<span id ="like' + post._id + '">' + post.likeCount + '</span>' + 
+                    '</p>' +
+                    //set up the click event to call likeClick() with the id of this item as a parameter
+                    '<button onclick="likeClick(\'' + post._id + '\');">Like</button>' +
+                    '</div>'
+                );
+            });
+        })
+    .catch(function(err){
+        //always include a catch for exceptions
+        console.log(err);
+    });
+    } // onAddPost()
     </script>
 </head>
 
 <body onload='onload();'>
     <div id="headerContent"></div>
+    
+    <div style="line-height:30px; margin:15px;"><button type="button" onclick="onAddPost()">Add post</button></div>
     
     <div id="bodyContent"></div>
     
