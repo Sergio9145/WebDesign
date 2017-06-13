@@ -26,16 +26,22 @@ router.use(express.static(path.resolve(__dirname, 'client')));
 //tell the router to parse JSON data for us and put it into req.body
 router.use(express.bodyParser());
 
-//tell the router how to handle a post request to /bodyContent
+// Give all the posts in DB
+function updateContent(res)
+{
+    //go find all the posts in the database
+	Post.find({})
+	.then(function(paths){
+	//send them to the client in JSON format
+	res.json(paths);
+	});
+}
+
+// Handle a POST-request to /bodyContent
 router.post('/bodyContent', function(req, res){
-  console.log('Client sends POST request for \'bodyContent\' in posts.html');
-  
-  //go find all the posts in the database
-  Post.find({})
-  .then(function(paths){
-    //send them to the client in JSON format
-    res.json(paths);
-  });
+    console.log('Client sends POST request for \'bodyContent\' in posts.html');
+    
+    updateContent(res);
 });
 
 var postCounter = 0;
@@ -61,17 +67,10 @@ router.post('/addPost', function(req, res){
 	  }
 	});
 	
-	//go find all the posts in the database
-	Post.find({})
-	.then(function(paths){
-	//send them to the client in JSON format
-	res.json(paths);
-	});
+    updateContent(res);
 });
     
-// NOT NECESSARY GET REQUEST?
-
-// What node.js does on get request:
+// Example of GET request:
 // router.get('/bodyContent', function(req, res) {
 //   console.log('Client requests bodyContent for posts.html');
 //   res.sendfile(path.join(__dirname, 'client/view', 'posts.html'));
