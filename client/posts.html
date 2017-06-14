@@ -1,107 +1,69 @@
-<!-- Instagram Clone
+<script>
 
-Conestoga College, Mobile Solutions Development program
+/* Function used to update user's page on POST-requests */
+function updateContent(posts){
+    //jQuery function to set the innerHTML of the div with id = 'postsContent' to empty
+    $('#postsContent').html('');
+    var lorem = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
+    //loop over each post item in the posts array
+    posts.forEach(function(post){
+        //jQuery function to append to the innterHTML of the div with id = 'postsContent'
+        $('#postsContent').append(
+            '<nav class="navbar navbar-default" style="width:490px; margin:20px auto;">' +
+            '<div style="margin:20px;" data-postId="' + post._id + '">' +
+            '<img src="' + post.image + '"/>' +
+            '<div class="container-fluid" style="padding:0px;margin:10px 0 0 0;">' +
+            '<p>' + lorem + '</p></div>' + //post.comment
+            '<ul class="nav navbar-nav navbar-right">' +
+            	'<li><p class="navbar-text">Like Count: ' + // style="padding:0px 10px;margin:0px 0px;"
+            		'<span id ="like' + post._id + '">' + post.likeCount + '</span></p></li>' + 
+                '<li><button onclick="likeClick(\'' + post._id + '\');" class="btn btn-default navbar-btn">Like</button></li>' +
+            '</ul></div></nav>'
+        );
+    });
+}
+//onLoad function, to be executed when page is completed loaded by browser
+function onload(){
+    //start a promise chain
+    Promise.resolve()
+    .then(function(){
+        //jQuery function to request all the posts from the server
+        //the 'return' is required. Otherwise, the subsequent then will not wait for this to complete
+        return $.post('postsContent');
+    })
+    //when the server responds, we'll execute this code
+    .then(function(posts){
+    	return updateContent(posts)
+    })
+    .catch(function(err){
+        //always include a catch for exceptions
+        console.log(err);
+    });
+} // onload()
 
-Author: Sergiy Opryshko (#7759145) sopryshko9145@conestogac.on.ca
+function onAddPost(){
+    //start a promise chain
+    Promise.resolve()
+    .then(function(){
+        //jQuery function to request all the posts from the server
+        //the 'return' is required. Otherwise, the subsequent then will not wait for this to complete
+        return $.post('addPost');
+    })
+    //when the server responds, we'll execute this code
+    .then(function(posts){
+    	return updateContent(posts)
+    })
+    .catch(function(err){
+        //always include a catch for exceptions
+        console.log(err);
+    });
+} // onAddPost()
+
+function likeClick()
+{
 	
-All copyrights reserved. -->
+}
+</script>
 
-<!doctype html>
-<html lang="en" ng-app>
-  <head>
-    <title>Posts</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <!-- COMMON STYLES -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/main_page.css">
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
-    
-    <!-- COMMON SCRIPTS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>$(function(){$("#headerContent").load("header.html");});</script>
-    <script>$(function(){$("#footerContent").load("footer.html");});</script>
-    
-    <!-- ONLY FOR THIS PAGE -->
-    
-    <!-- GET/POST PROCESSING -->
-    <script>
-    
-    /* Function used to update user's page on POST-requests */
-    function updateContent(posts){
-        //jQuery function to set the innerHTML of the div with id = 'bodyContent' to empty
-        $('#bodyContent').html('');
-        var lorem = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
-        //loop over each post item in the posts array
-        posts.forEach(function(post){
-            //jQuery function to append to the innterHTML of the div with id = 'bodyContent'
-            $('#bodyContent').append(
-                '<nav class="navbar navbar-default" style="width:490px; margin:20px auto;">' +
-                '<div style="margin:20px;" data-postId="' + post._id + '">' +
-                '<img src="' + post.image + '"/>' +
-                '<div class="container-fluid" style="padding:0px;margin:10px 0 0 0;">' +
-                '<p>' + lorem + '</p></div>' + //post.comment
-                '<ul class="nav navbar-nav navbar-right">' +
-                	'<li><p class="navbar-text">Like Count: ' + // style="padding:0px 10px;margin:0px 0px;"
-                		'<span id ="like' + post._id + '">' + post.likeCount + '</span></p></li>' + 
-	                '<li><button onclick="likeClick(\'' + post._id + '\');" class="btn btn-default navbar-btn">Like</button></li>' +
-                '</ul></div></nav>'
-            );
-        });
-    }
-    //onLoad function, to be executed when page is completed loaded by browser
-    function onload(){
-        //start a promise chain
-        Promise.resolve()
-        .then(function(){
-            //jQuery function to request all the posts from the server
-            //the 'return' is required. Otherwise, the subsequent then will not wait for this to complete
-            return $.post('bodyContent');
-        })
-        //when the server responds, we'll execute this code
-        .then(function(posts){
-        	return updateContent(posts)
-        })
-        .catch(function(err){
-            //always include a catch for exceptions
-            console.log(err);
-        });
-    } // onload()
-
-    function onAddPost(){
-	    //start a promise chain
-	    Promise.resolve()
-	    .then(function(){
-	        //jQuery function to request all the posts from the server
-	        //the 'return' is required. Otherwise, the subsequent then will not wait for this to complete
-	        return $.post('addPost');
-	    })
-        //when the server responds, we'll execute this code
-        .then(function(posts){
-        	return updateContent(posts)
-        })
-	    .catch(function(err){
-	        //always include a catch for exceptions
-	        console.log(err);
-	    });
-    } // onAddPost()
-    
-    function likeClick()
-    {
-    	
-    }
-    </script>
-</head>
-
-<body onload='onload();'>
-    <div id="headerContent"></div>
-    
-    <div class="container-fluid" style="line-height:30px; margin:15px;"><button type="button" class="btn btn-default navbar-right" onclick="onAddPost()">Add post</button></div>
-    
-    <div id="bodyContent"></div>
-    
-    <div id="footerContent"></div>
-</body>
+<div class="container-fluid" style="line-height:30px; margin:15px;"><button type="button" class="btn btn-default navbar-right" onclick="onAddPost()">Add post</button></div>
+<div id="postsContent"><script>onload()</script></div>

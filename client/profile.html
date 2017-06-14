@@ -1,40 +1,23 @@
-<!-- Instagram Clone
+<div id="Main">
+    <div id="User">
+        <div style="float: left; padding: 15px;">
+            <img id="profile_photo" src="img/userpic.jpg" alt="User's Picture">
+        </div>
+        <div style="float: left; padding: 15px;">
+            <div style="float: left;"> <!-- First row -->
+                <div id=user_name>Username</div>
+                <div id=edit_profile><button type="button" disabled>Edit Profile</button></div>
+                <div id=settings><img src="img/Settings.png" alt="Settings"/></div>
+            </div>
+            <div style="clear:both;"> <!-- Second row -->
+                <div id="posts" style="float: left;"><a class="a_btn" href="posts.html">Posts</a></div>
+                <div id="followers" style="float: left;"><a class="a_btn" href="">0 Followers</a></div>
+                <div id="following" style="float: left;"><a class="a_btn" href="">0 Following</a></div>
+            </div>
+        </div>
+    </div>
 
-Conestoga College, Mobile Solutions Development program
-
-Author: Sergiy Opryshko (#7759145) sopryshko9145@conestogac.on.ca
-	
-All copyrights reserved. -->
-
-<!doctype html>
-<html lang="en" ng-app>
-  <head>
-    <title>Profile</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <!-- COMMON STYLES -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/main_page.css">
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
-    
-    <!-- COMMON SCRIPTS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>$(function(){$("#headerContent").load("header.html");});</script>
-    <script>$(function(){$("#footerContent").load("footer.html");});</script>
-    
-    <!-- ONLY FOR THIS PAGE -->
-    <script>$(function(){$("#bodyContent").load("profile_content.html");});</script>
-</head>
-
-<body>
-    <div id="headerContent"></div>
-    
-    <div id="bodyContent"></div>
-
-    <div id="footerContent"></div>
-    
-</body>
-</html>
+    <div id="Content">
+        <img class="photo_content" src=img/9pics.jpg alt="9 pictures">
+    </div>
+</div>

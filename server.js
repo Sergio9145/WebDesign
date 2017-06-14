@@ -37,9 +37,9 @@ function updateContent(res)
 	});
 }
 
-// Handle a POST-request to /bodyContent
-router.post('/bodyContent', function(req, res){
-    console.log('Client sends POST request for \'bodyContent\' in posts.html');
+// Handle a POST-request to /postsContent
+router.post('/postsContent', function(req, res){
+    console.log('Client sends POST request for \'postsContent\' in posts.html');
     
     updateContent(res);
 });
