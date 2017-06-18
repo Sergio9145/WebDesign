@@ -1,23 +1,29 @@
-<div id="Main">
-    <div id="User">
-        <div style="float: left; padding: 15px;">
+<nav class="navbar navbar-default">
+	<div id="User">
+        <div style="float: left; margin:10px;">
             <img id="profile_photo" src="img/userpic.jpg" alt="User's Picture">
         </div>
-        <div style="float: left; padding: 15px;">
-            <div style="float: left;"> <!-- First row -->
-                <div id=user_name>Username</div>
-                <div id=edit_profile><button type="button" disabled>Edit Profile</button></div>
-                <div id=settings><img src="img/Settings.png" alt="Settings"/></div>
-            </div>
-            <div style="clear:both;"> <!-- Second row -->
-                <div id="posts" style="float: left;"><a class="a_btn" href="posts.html">Posts</a></div>
-                <div id="followers" style="float: left;"><a class="a_btn" href="">0 Followers</a></div>
-                <div id="following" style="float: left;"><a class="a_btn" href="">0 Following</a></div>
-            </div>
+        <div style="float: left;">
+        	<div>
+        	<ul style="margin: 15px 15px 0px 15px;" class="nav navbar-nav">
+				<!-- First row -->
+	            <li><p id=user_name class="navbar-text">Username</li>
+	            <li><button type="button" disabled class="btn btn-default navbar-btn">Edit Profile</button></li>
+	            <li><img src="img/Settings.png" alt="Settings" style="margin:15px;"/></li>
+	        </ul>
         </div>
+        <div style="clear: both;">
+	        <ul style="margin: 0px 15px 15px 15px;" class="nav navbar-nav">
+		        <!-- Second row -->
+	            <li><a class="a_btn" href="javascript:ReplaceContentWith('posts')">Posts</a></li>
+	            <li><a class="a_btn">0 Followers</a></li>
+	            <li><a class="a_btn">0 Following</a></li>
+			</ul>
+			</div>
+		</div>
     </div>
+</nav>
 
-    <div id="Content">
-        <img class="photo_content" src=img/9pics.jpg alt="9 pictures">
-    </div>
+<div id="Content">
+    <img class="photo_content" src=img/9pics.jpg alt="9 pictures">
 </div>

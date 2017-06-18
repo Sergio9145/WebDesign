@@ -49,10 +49,9 @@ router.post('/addPost', function(req, res){
 	console.log('Client sends POST request for \'addPost\' in posts.html');
 	
 	postCounter++;
-	if (postCounter > 5) postCounter = 1;
 
 	var post1 = new Post({
-		image: 'img/kitty' + postCounter + '.jpg',
+		image: 'img/kitty' + (postCounter%5+1) + '.jpg',
 		comment: 'Cool picture!',
 		likeCount: 0,
 		feedbackCount: 0

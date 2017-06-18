@@ -1,4 +1,4 @@
-function ReplaceContentInContainer(contentPage) {
+function ReplaceContentWith(contentPage) {
 	if (contentPage == "main")
 	{
 		$('#bodyContent').html('');
@@ -13,5 +13,10 @@ function ReplaceContentInContainer(contentPage) {
 	{
 		$('#bodyContent').html('');
 		$("#bodyContent").load("posts.html");
-	}	
+	}
+	if (contentPage == "about")
+	{
+		$('#bodyContent').html('');
+		$("#bodyContent").load("about.html");
+	}
 }

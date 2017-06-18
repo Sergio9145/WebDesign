@@ -8,6 +8,7 @@ a {
     text-decoration:none;
 }
 
+/* HEADER */
 .a_btn {
     margin: 0 10 0 0;
 }
@@ -15,7 +16,43 @@ a {
 li {
     display: inline-block;
 }
-/*
+
+.a_icon {
+    margin: 8px 0px;
+}
+
+.search {
+    margin: 15px 60px;
+    width: 230px;
+    height: 24px;
+}
+
+/* PROFILE PAGE */
+#User {
+    clear: both;
+}
+
+#Content {
+    clear: both;
+    margin: 20px;
+}
+
+#profile_photo {
+    border-radius: 50%;
+    width: 160px;
+    height: 160px;
+}
+
+.photo_content{
+    height: 300px;
+    width: 300px;
+}
+
+/* FOOTER */
+.footer_item {
+    padding: 15px;
+}
+
 /* FOR FUTURE USE:
 .icon_logo .icon_explore .icon_like .icon_profile{
   background-image: url(sprite.png);
@@ -29,78 +66,3 @@ li {
     width: 176px;
 }
 */
-
-.a_icon {
-    margin: 8px 0px;
-}
-
-.search {
-    margin: 15px 60px;
-    width: 230px;
-    height: 24px;
-}
-
-#Main {
-    padding: 10px;
-    clear: both;
-}
-
-#User {
-    padding: 10px;
-    clear: both;
-}
-
-#Content {
-    clear: both;
-    padding: 10px;
-}
-
-#button {
-    background: transparent;
-    border: none !important;
-}
-
-#profile_photo {
-    border-radius: 50%;
-    width: 160px;
-    height: 160px;
-}
-
-#user_name {
-    padding: 10px;
-    float: left;
-}
-
-#edit_profile {
-    padding: 10px;
-    float: left;
-}
-
-#settings {
-    padding: 10px;
-    float: left;
-}
-
-#posts {
-    padding: 10px;
-    float: left;
-}
-
-#followers {
-    padding: 10px;
-    float: left;
-}
-
-#following {
-    padding: 10px;
-    float: left;
-}
-
-.photo_content{
-    /*height: 300px;*/
-    /*width: 300px;*/
-}
-
-.footer_item {
-    padding: 15px;
-}
