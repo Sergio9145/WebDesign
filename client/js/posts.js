@@ -3,7 +3,7 @@ function updateContent(posts){
     //jQuery function to set the innerHTML of the div with id = 'postsContent' to empty
     $('#postsContent').html('');
     var lorem = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
-    //loop over each post item in the posts array
+
     posts.forEach(function(post){
         //jQuery function to append to the innterHTML of the div with id = 'postsContent'
         $('#postsContent').append(
@@ -11,17 +11,17 @@ function updateContent(posts){
             '<div style="margin:20px;" data-postId="' + post._id + '">' +
             '<img src="' + post.image + '"/>' +
             '<div class="container-fluid" style="padding:0px;margin:10px 0 0 0;">' +
-            '<p>' + lorem + '</p></div>' + //post.comment
+            '<p><b>' + post.comment + '</b> ' + lorem + ' <b>Post ID:</b> ' + post._id + '.</p></div>' +
             '<ul class="nav navbar-nav navbar-right">' +
-            	'<li><p class="navbar-text">Like Count: ' + // style="padding:0px 10px;margin:0px 0px;"
-            		'<span id ="like' + post._id + '">' + post.likeCount + '</span></p></li>' + 
+                '<li><p class="navbar-text">Like Count: ' +
+                    '<span id ="like' + post._id + '">' + post.likeCount + '</span></p></li>' +
                 '<li><button onclick="likeClick(\'' + post._id + '\');" class="btn btn-default navbar-btn">Like</button></li>' +
             '</ul></div></nav>'
         );
     });
 }
-//onLoad function, to be executed when page is completed loaded by browser
-function onload(){
+
+function onPageLoad(){
     //start a promise chain
     Promise.resolve()
     .then(function(){
@@ -37,7 +37,7 @@ function onload(){
         //always include a catch for exceptions
         console.log(err);
     });
-} // onload()
+} // onPageLoad()
 
 function onAddPost(){
     //start a promise chain

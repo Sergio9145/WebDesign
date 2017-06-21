@@ -33,7 +33,7 @@ function updateContent(res)
 	Post.find({})
 	.then(function(paths){
 	//send them to the client in JSON format
-	res.json(paths);
+	return res.json(paths);
 	});
 }
 
@@ -45,14 +45,13 @@ router.post('/postsContent', function(req, res){
 });
 
 var postCounter = 0;
+
 router.post('/addPost', function(req, res){
 	console.log('Client sends POST request for \'addPost\' in posts.html');
 	
-	postCounter++;
-
 	var post1 = new Post({
-		image: 'img/kitty' + (postCounter%5+1) + '.jpg',
-		comment: 'Cool picture!',
+		image: 'img/kitty' + (postCounter%5 + 1) + '.jpg',
+		comment: 'Cool picture comment #' + (postCounter + 1) + '!',
 		likeCount: 0,
 		feedbackCount: 0
 	});
@@ -62,19 +61,15 @@ router.post('/addPost', function(req, res){
 	    console.log(err);
 	  }
 	  else {
+	    postCounter++;
 	    console.log('Post #' + postCounter + ' created!');
 	  }
-	});
-	
-    updateContent(res);
+	})
+	.then(function(){
+	    return updateContent(res);
+	})
 });
     
-// Example of GET request:
-// router.get('/bodyContent', function(req, res) {
-//   console.log('Client requests bodyContent for posts.html');
-//   res.sendfile(path.join(__dirname, 'client/view', 'posts.html'));
-// });
-
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
   console.log("Instagram clone ready!");
 });
