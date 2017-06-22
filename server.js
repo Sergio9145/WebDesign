@@ -39,7 +39,7 @@ function updateContent(res)
 
 // Handle a POST-request to /postsContent
 router.post('/postsContent', function(req, res){
-    console.log('Client sends POST request for \'postsContent\' in posts.html');
+    console.log('Client sends POST request \'postsContent\' in posts.html');
     
     updateContent(res);
 });
@@ -47,7 +47,7 @@ router.post('/postsContent', function(req, res){
 var postCounter = 0;
 
 router.post('/addPost', function(req, res){
-	console.log('Client sends POST request for \'addPost\' in posts.html');
+	console.log('Client sends POST request \'addPost\' in posts.html');
 	
 	var post1 = new Post({
 		image: 'img/kitty' + (postCounter%5 + 1) + '.jpg',
@@ -69,7 +69,23 @@ router.post('/addPost', function(req, res){
 	    return updateContent(res);
 	})
 });
-    
+
+router.post('/incrLike', function(req, res){
+  console.log('Client sends POST request \'incrLike\' for ID ' + req.body.id + ' in posts.html');
+
+  Post.findById(req.body.id)
+  .then(function(post){
+    post.likeCount++;
+    return post.save(post);
+  })
+  .then(function(post){
+    res.json({id: req.body.id, count: post.likeCount});
+  })
+  .catch(function(err){
+    console.log(err);
+  })
+});
+
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
   console.log("Instagram clone ready!");
 });

@@ -15,13 +15,13 @@ function updateContent(posts){
             '<ul class="nav navbar-nav navbar-right">' +
                 '<li><p class="navbar-text">Like Count: ' +
                     '<span id ="like' + post._id + '">' + post.likeCount + '</span></p></li>' +
-                '<li><button onclick="likeClick(\'' + post._id + '\');" class="btn btn-default navbar-btn">Like</button></li>' +
+                '<li><button onclick="onLikeClick(\'' + post._id + '\');" class="btn btn-default navbar-btn">Like</button></li>' +
             '</ul></div></nav>'
         );
     });
 }
 
-function onPageLoad(){
+function onContentLoad(){
     //start a promise chain
     Promise.resolve()
     .then(function(){
@@ -37,7 +37,7 @@ function onPageLoad(){
         //always include a catch for exceptions
         console.log(err);
     });
-} // onPageLoad()
+} // onContentLoad()
 
 function onAddPost(){
     //start a promise chain
@@ -57,7 +57,20 @@ function onAddPost(){
     });
 } // onAddPost()
 
-function likeClick()
-{
-	
+function onLikeClick(id){
+    Promise.resolve()
+    .then(function(){
+        //jQuery provides a nice convenience method for easily sending a post with parameters in JSON
+        //here we pass the ID to the incrLike route on the server side so it can do the incrementing for us
+        //note the return. This MUST be here, or the subsequent then will not wait for this to complete
+        return $.post('incrLike', {id : id});
+    })
+    .then(function(like){
+        //jQuery provides a nice convenience methot for easily setting the count to the value returned
+        $('#like' + like.id).html(like.count);
+    })
+    .catch(function(err){
+        //always include a catch for the promise chain
+        console.log(err);
+    });
 }
