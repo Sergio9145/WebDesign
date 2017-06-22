@@ -48,7 +48,7 @@ var postCounter = 0;
 
 router.post('/addPost', function(req, res){
 	console.log('Client sends POST request \'addPost\' in posts.html');
-	
+
 	var post1 = new Post({
 		image: 'img/kitty' + (postCounter%5 + 1) + '.jpg',
 		comment: 'Cool picture comment #' + (postCounter + 1) + '!',
@@ -56,15 +56,27 @@ router.post('/addPost', function(req, res){
 		feedbackCount: 0
 	});
 	
-	post1.save(function(err) {
+    postCounter++;
+
+    post1.save(function(err) {
 	  if (err) {
 	    console.log(err);
 	  }
 	  else {
-	    postCounter++;
 	    console.log('Post #' + postCounter + ' created!');
 	  }
 	})
+	.then(function(){
+	    return updateContent(res);
+	})
+});
+
+router.post('/removePosts', function(req, res){
+	console.log('Client sends POST request \'removePosts\' in posts.html');
+
+    postCounter = 0;
+
+    Post.remove({})
 	.then(function(){
 	    return updateContent(res);
 	})

@@ -1,4 +1,8 @@
 <script src="./js/posts.js"></script>
 
-<div class="container-fluid" style="line-height:30px; margin:15px;"><button type="button" class="btn btn-default navbar-right" onclick="onAddPost()">Add post</button></div>
+<div class="container-fluid" style="line-height:30px; margin:0px 0px 20px 0px;">
+	<button type="button" class="btn btn-default navbar-right" style="margin:0px 0px 0px 10px;" onclick="onRemovePosts()">Clear all</button>
+	<button type="button" class="btn btn-default navbar-right" style="margin:0px 10px 0px 0px;" onclick="onAddPost()">Add post</button>
+</div>
+
 <div id="postsContent"><script>onContentLoad()</script></div>

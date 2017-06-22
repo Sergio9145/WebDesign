@@ -57,6 +57,23 @@ function onAddPost(){
     });
 } // onAddPost()
 
+function onRemovePosts(){
+    Promise.resolve()
+    .then(function(){
+        //jQuery function to request all the posts from the server
+        //the 'return' is required. Otherwise, the subsequent then will not wait for this to complete
+        return $.post('removePosts');
+    })
+    //when the server responds, we'll execute this code
+    .then(function(posts){
+        return updateContent(posts);
+    })
+    .catch(function(err){
+        //always include a catch for exceptions
+        console.log(err);
+    });
+} // onRemovePosts()
+
 function onLikeClick(id){
     Promise.resolve()
     .then(function(){
@@ -73,4 +90,4 @@ function onLikeClick(id){
         //always include a catch for the promise chain
         console.log(err);
     });
-}
+} // onLikeClick()
