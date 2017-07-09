@@ -19,4 +19,19 @@ function ReplaceContentWith(contentPage) {
 		$('#bodyContent').html('');
 		$("#bodyContent").load("about.html");
 	}
+	if (contentPage == "join")
+	{
+		$('#bodyContent').html('');
+		$("#bodyContent").load("join.html");
+	}
+	if (contentPage == "signin")
+	{
+		$('#bodyContent').html('');
+		$("#bodyContent").load("signin.html");
+	}
+	if (contentPage == "passwordreset")
+	{
+		$('#bodyContent').html('');
+		$("#bodyContent").load("passwordreset.html");
+	}
 }
