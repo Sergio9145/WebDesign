@@ -1,6 +1,6 @@
 {
   "name": "Instagram-clone-sample",
-  "version": "0.0.2",
+  "version": "0.0.9",
   "description": "A simple Instagram clone",
   "main": "server.js",
   "repository": "",
@@ -8,6 +8,12 @@
   "dependencies": {
     "express": "~3.2.4",
     "mongodb": "^2.2.27",
-    "mongoose": "^4.10.3"
+    "mongoose": "^4.10.3",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.2",
+    "connect-mongodb-session": "^1.3.0",
+    "nodemailer": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "smtp-connection": "^4.0.2"
   }
 }
