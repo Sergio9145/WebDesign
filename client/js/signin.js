@@ -10,8 +10,13 @@ function handleSigninAttempt(){
         })
         .then(function(auth){
             if (auth.isValid){
-                $('#error').text = '';
-                window.location.replace('posts');
+                $('#error').text = 'User signed in';
+                $('#bodyContent').html('');
+                $("#bodyContent").load("posts.html");
+
+				//* TODO: change properly!
+				// $('#menuContent').html('');
+				// $("#menuContent").load("usermenu.html");
             } else {
                 $('#error').html(auth.message);
                 $('#email').html('');

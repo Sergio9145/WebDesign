@@ -22,6 +22,8 @@ const mongoose = require('mongoose');
 const Post = require('./models/Post.js');
 const User = require('./models/User.js');
 const PasswordReset = require('./models/PasswordReset.js');
+//sendmail
+const email = require('./js/send_mail.js');
 
 var router = express();
 var server = http.createServer(router);
@@ -42,7 +44,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 //add session support
 router.use(session({
-  secret: process.env.SESSION_SECRET || ',tpyfls]cgjlsdf.cm', 
+  secret: process.env.SESSION_SECRET || 'mySecretKey', 
   store: mongoSessionStore,
   resave: true,
   saveUninitialized: false
@@ -53,61 +55,60 @@ router.use(passport.session());
 userAuth.init(passport);
 
 //tell the router how to handle a get request to the signin page
-router.get('/signin', function(req, res){
-  console.log('client requests signin');
-  res.redirect('/');
-});
+// router.get('/signin', function(req, res){
+//   console.log('client requests signin');
+// });
 
 //tell the router how to handle a post request from the signin page
 router.post('/signin', function(req, res, next) {
   //tell passport to attempt to authenticate the login
-  passport.authenticate('signin', function(err, user, info) {
+  passport.authenticate('login', function(err, user, info) {
     //callback returns here
     if (err){
       //if error, say error
-      res.json({isValid: false, message: 'internal error'});
+      res.json({isValid: false, message: 'Internal error'});
     } else if (!user) {
       //if no user, say invalid login
-      res.json({isValid: false, message: 'try again'});
+      res.json({isValid: false, message: 'Try again. Login attempt was unsuccessful.'});
     } else {
       //log this user in
       req.logIn(user, function(err){
         if (!err)
           //send a message to the client to say so
-          res.json({isValid: true, message: 'Welcome, ' + user.email});
+          res.json({isValid: true, message: 'Welcome, ' + user.email + '.'});
       });
     }
   })(req, res, next);
 });
 
 //tell the router how to handle a get request to the join page
-router.get('/join', function(req, res){
-  console.log('client requests join');
-  res.sendFile(path.join(__dirname, 'client/view', 'join.html'));
-});
+// router.get('/join', function(req, res){
+//   console.log('client requests join');
+//   res.sendFile(path.join(__dirname, 'client/view', 'join.html'));
+// });
 
 //tell the router how to handle a post request to the join page
 router.post('/join', function(req, res, next) {
   passport.authenticate('signup', function(err, user, info) {
     if (err){
-      res.json({isValid: false, message: 'internal error'});    
+      res.json({isValid: false, message: 'Internal error.'});    
     } else if (!user) {
-      res.json({isValid: false, message: 'try again'});
+      res.json({isValid: false, message: 'Try again. User is not created or already exists.'});
     } else {
       //log this user in since they've just joined
       req.logIn(user, function(err){
         if (!err)
           //send a message to the client to say so
-          res.json({isValid: true, message: 'welcome ' + user.email});
+          res.json({isValid: true, message: 'User ' + user.email + ' added!'});
       });
     }
   })(req, res, next);
 });
 
-router.get('/passwordreset', (req, res) => {
-  console.log('client requests passwordreset');
-  res.sendFile(path.join(__dirname, 'client/view', 'passwordreset.html'));
-});
+// router.get('/passwordreset', (req, res) => {
+//   console.log('client requests passwordreset');
+//   res.sendFile(path.join(__dirname, 'client/view', 'passwordreset.html'));
+// });
 
 router.post('/passwordreset', (req, res) => {
     Promise.resolve()
@@ -124,11 +125,11 @@ router.post('/passwordreset', (req, res) => {
         pr.save()
         .then(function(pr){
           if (pr){
-            email.send(req.body.email, 'password reset', 'https://prog8165-rtbsoft.c9users.io/verifypassword?id=' + pr.id);
+            email.send(req.body.email, 'Password reset', 'https://webdesign-opryshko.c9users.io/verifypassword?id=' + pr.id);
           }
         });
       }
-    })
+    });
 });
 
 router.get('/verifypassword', function(req, res){
@@ -152,7 +153,7 @@ router.get('/verifypassword', function(req, res){
         user.password = password;
         return user.save();
       }
-    })
+    });
 });
 
 // Give all the posts in DB
@@ -160,17 +161,44 @@ function updateContent(res)
 {
     //go find all the posts in the database
 	Post.find({})
-	.then(function(paths){
+	.then(function(posts){
 	//send them to the client in JSON format
-	return res.json(paths);
+	return res.json(posts);
 	});
 }
 
 // Handle a POST-request to /postsContent
-router.post('/postsContent', function(req, res){
+router.post('/postsContent', userAuth.isAuthenticated, function(req, res){
     console.log('Client sends POST request \'postsContent\' in posts.html');
     updateContent(res);
 });
+
+// router.post('/posts', userAuth.isAuthenticated, function(req, res){
+//   console.log('client requests posts list');
+  
+//   var thesePosts;
+//   //go find all the posts in the database
+//   Post.find({})
+//   .then(function(posts){
+//     thesePosts = posts;
+//     var promises = [];
+//     thesePosts.forEach(function(post){
+//       promises.push(
+//         Promise.resolve()
+//         .then(function(){
+//           return Like.findOne({userId: req.user.id, postId: post.id})
+//         })
+//         .then(function(like){
+//           post._doc.isLiked = like ? true : false;
+//       }));
+//     });
+//     return Promise.all(promises);
+//   })
+//   .then(function(){
+//     //send them to the client in JSON format
+//     res.json(thesePosts);
+//   })
+// });
 
 var postCounter = 0;
 
@@ -178,6 +206,7 @@ router.post('/addPost', function(req, res){
 	console.log('Client sends POST request \'addPost\' in posts.html');
 
 	var post1 = new Post({
+		userId: req.user.id,
 		image: 'img/kitty' + (postCounter%5 + 1) + '.jpg',
 		comment: 'Cool picture comment #' + (postCounter + 1) + '!',
 		likeCount: 0,
@@ -196,7 +225,7 @@ router.post('/addPost', function(req, res){
 	})
 	.then(function(){
 	    return updateContent(res);
-	})
+	});
 });
 
 router.post('/removePosts', function(req, res){
@@ -207,7 +236,7 @@ router.post('/removePosts', function(req, res){
     Post.remove({})
 	.then(function(){
 	    return updateContent(res);
-	})
+	});
 });
 
 router.post('/incrLike', function(req, res){
@@ -223,7 +252,7 @@ router.post('/incrLike', function(req, res){
   })
   .catch(function(err){
     console.log(err);
-  })
+  });
 });
 
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){

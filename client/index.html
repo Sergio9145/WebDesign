@@ -23,14 +23,21 @@ All copyrights reserved. -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="./js/navigation.js"></script>
-    <script>$(function(){$("#headerContent").load("header.html");});</script>
     <script>$(function(){$("#footerContent").load("footer.html");});</script>
 </head>
 
 <body>
-    <div id="headerContent"></div>
+    <div id="headerContent">
+    	<script>
+    		$(function(){$("#headerContent").load("header.html");});
+		</script>
+	</div>
     
-    <div id="bodyContent"><script>$(function(){$("#bodyContent").load("changelog.html");});</script></div>
+    <div id="bodyContent">
+    	<script>
+    		$(function(){$("#bodyContent").load("changelog.html");});
+		</script>
+	</div>
 
     <div id="footerContent"></div>
 </body>

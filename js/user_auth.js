@@ -6,13 +6,13 @@ const hash = require('./../js/hash.js');
 module.exports.init = function(passport){
 	// Passport needs to be able to serialize and deserialize users to support persistent login sessions
     passport.serializeUser(function(user, callback) {
-        console.log('serializing user: ' + user.username);
+        // console.log('serializing user: ' + user.username);
         callback(null, user._id);
     });
 
     passport.deserializeUser(function(id, callback) {
         User.findById(id, function(err, user) {
-            console.log('deserializing user: ' + user.username);
+            // console.log('deserializing user: ' + user.username);
             callback(err, user);
         });
     });
@@ -25,23 +25,25 @@ module.exports.init = function(passport){
 
 //encapsulate validating whether this session has an authenticated user
 module.exports.isAuthenticated = function (req, res, next) {
-    console.log('check if we have an authenticated user');
+    console.log('Check if we have an authenticated user:');
 	// if user is authenticated in the session 
 	if (req.isAuthenticated()){
-	    console.log('we do');
+	    console.log('User is authenticated!');
         //allow them to proceed
         next();
     } else {
-	    console.log('we do not');
+	    console.log('User is NOT authenticated! Redirecting to Sign in page');
         // if the user is not authenticated then redirect him to the login page
-        res.redirect('/signin');
+        
+        //* TODO : will not work now
+        // res.redirect('/signin');
     }
 }
 
 //passport will call this function when someone attempts to log in
 function handleLoginAttempt(email, password, cb){
     //don't log user's passwords in plain text to the console in production
-    console.log('userAuth: handleLoginAttempt: email: ' + email + ' password: ' + password);
+    console.log('handleLoginAttempt: email: ' + email + ' password: ' + password);
     
     Promise.resolve()
     .then(function(){
@@ -59,7 +61,7 @@ function handleLoginAttempt(email, password, cb){
     })
     .catch(function(err){
         //even if something went wrong, we still need to call the callback
-        console.log('userAuth: handleLoginAttempt: exception: ' + err);
+        console.log('handleLoginAttempt: exception: ' + err);
         cb(err);
     });
 }
@@ -67,7 +69,7 @@ function handleLoginAttempt(email, password, cb){
 //passport will call this function when someone attempts to join
 function handleSignupAttempt(email, password, cb){
     //don't log user's passwords in plain text to the console in production
-    console.log('userAuth: handleSignupAttempt: email: ' + email + ' password: ' + password);
+    console.log('handleSignupAttempt: email: ' + email + ' password: ' + password);
     
     Promise.resolve()
     .then(function(){
@@ -88,6 +90,7 @@ function handleSignupAttempt(email, password, cb){
             })
             .then(function(user){
                 //execute the callback with appropriate parameters
+                console.log('User ' + user.email + ' created');
                 cb(null, user);
             })
         } else {
@@ -96,7 +99,7 @@ function handleSignupAttempt(email, password, cb){
     })
     .catch(function(err){
         //even if something went wrong, we still need to call the callback
-        console.log('userAuth: handleSignupAttempt: exception: ' + err);
+        console.log('handleSignupAttempt: exception: ' + err);
         cb(err);
     });
 }
