@@ -5,6 +5,11 @@ function updateContent(posts){
     var lorem = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
 
     posts.forEach(function(post){
+		var likeString = '';
+
+		if (post.isLikedByMe)
+			likeString = 'I liked this!';
+
         //jQuery function to append to the innterHTML of the div with id = 'postsContent'
         $('#postsContent').append(
             '<nav class="navbar navbar-default" style="width:490px; margin:20px auto;">' +
@@ -13,6 +18,7 @@ function updateContent(posts){
             '<div class="container-fluid" style="padding:0px;margin:10px 0 0 0;">' +
             '<p><b>' + post.comment + '</b> ' + lorem + ' <b>Post ID:</b> ' + post._id + '.</p></div>' +
             '<ul class="nav navbar-nav navbar-right">' +
+                '<li><p class="navbar-text" id="ilikethis">' + likeString + '</p></li>' +
                 '<li><p class="navbar-text">Like Count: ' +
                     '<span id ="like' + post._id + '">' + post.likeCount + '</span></p></li>' +
                 '<li><button onclick="onLikeClick(\'' + post._id + '\');" class="btn btn-default navbar-btn">Like</button></li>' +
@@ -84,7 +90,9 @@ function onLikeClick(id){
     })
     .then(function(like){
         //jQuery provides a nice convenience methot for easily setting the count to the value returned
-        $('#like' + like.id).html(like.count);
+    	// if (like.count > 0)
+     //   	$('#like' + like.id).html(like.count);
+    	return onContentLoad();
     })
     .catch(function(err){
         //always include a catch for the promise chain

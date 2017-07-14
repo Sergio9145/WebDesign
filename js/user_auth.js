@@ -32,11 +32,9 @@ module.exports.isAuthenticated = function (req, res, next) {
         //allow them to proceed
         next();
     } else {
-	    console.log('User is NOT authenticated! Redirecting to Sign in page');
+	    console.log('User is NOT authenticated! Redirecting to Sign in page...');
         // if the user is not authenticated then redirect him to the login page
-        
-        //* TODO : will not work now
-        // res.redirect('/signin');
+        $.post('/signin');
     }
 }
 

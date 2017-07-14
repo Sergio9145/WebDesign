@@ -1,3 +1,5 @@
+<script src="./js/header.js"></script>
+
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -10,13 +12,9 @@
       </div>
     </form>
 	
-	<div id="menuContent">
-		<ul class="nav navbar-nav navbar-right">
-			<!--<li><a class="a_icon" href="javascript:ReplaceContentWith('posts')"><img id="like" src="img/Like.png" alt="Like Button"></a></li>-->
-			<!--<li><a class="a_icon" href="javascript:ReplaceContentWith('profile')"><img id="profile" src="img/Profile.png" alt="Profile Button"></a></li>-->
-			<li><a class="a_icon" href="javascript:ReplaceContentWith('join')">Register</a></li>
-			<li><a class="a_icon" href="javascript:ReplaceContentWith('signin')">Sign In</a></li>
-		</ul>
-  	</div>
+	<div id="menuContent"></div>
+  	
+  	<script>onGetMenu()</script>
+  	
   </div>
 </nav>

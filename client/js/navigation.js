@@ -35,19 +35,3 @@ function ReplaceContentWith(contentPage) {
 		$("#bodyContent").load("passwordreset.html");
 	}
 }
-
-var menu = 'register';
-
-function ShowHeaderMenu() {
-	if (menu == "register")
-	{
-		$('#menuContent').html('');
-		$("#menuContent").load("registermenu.html");
-	}
-	
-	if (menu == "user")
-	{
-		$('#menuContent').html('');
-		$("#menuContent").load("usermenu.html");
-	}
-}

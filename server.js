@@ -21,6 +21,7 @@ const hash = require('./js/hash.js');
 const mongoose = require('mongoose');
 const Post = require('./models/Post.js');
 const User = require('./models/User.js');
+const Like = require('./models/Like.js');
 const PasswordReset = require('./models/PasswordReset.js');
 //sendmail
 const email = require('./js/send_mail.js');
@@ -54,9 +55,10 @@ router.use(passport.initialize());
 router.use(passport.session());
 userAuth.init(passport);
 
-//tell the router how to handle a get request to the signin page
+// tell the router how to handle a get request to the signin page
 // router.get('/signin', function(req, res){
 //   console.log('client requests signin');
+
 // });
 
 //tell the router how to handle a post request from the signin page
@@ -157,52 +159,42 @@ router.get('/verifypassword', function(req, res){
 });
 
 // Give all the posts in DB
-function updateContent(res)
+function updateContent(req, res)
 {
-    //go find all the posts in the database
-	Post.find({})
-	.then(function(posts){
-	//send them to the client in JSON format
-	return res.json(posts);
-	});
+  var thesePosts;
+
+  //go find all the posts in the database
+  Post.find({})
+  .then(function(posts){
+    thesePosts = posts;
+    var promises = [];
+    thesePosts.forEach(function(post){
+      promises.push(
+        Promise.resolve()
+        .then(function(){
+          return Like.findOne({userId: req.user.id, postId: post.id})
+        })
+        .then(function(like){
+          return post._doc.isLikedByMe = like ? true : false;
+      }));
+    });
+    return Promise.all(promises);
+  })
+  .then(function(){
+    //send them to the client in JSON format
+    return res.json(thesePosts);
+  })
 }
 
 // Handle a POST-request to /postsContent
 router.post('/postsContent', userAuth.isAuthenticated, function(req, res){
     console.log('Client sends POST request \'postsContent\' in posts.html');
-    updateContent(res);
+    updateContent(req, res);
 });
-
-// router.post('/posts', userAuth.isAuthenticated, function(req, res){
-//   console.log('client requests posts list');
-  
-//   var thesePosts;
-//   //go find all the posts in the database
-//   Post.find({})
-//   .then(function(posts){
-//     thesePosts = posts;
-//     var promises = [];
-//     thesePosts.forEach(function(post){
-//       promises.push(
-//         Promise.resolve()
-//         .then(function(){
-//           return Like.findOne({userId: req.user.id, postId: post.id})
-//         })
-//         .then(function(like){
-//           post._doc.isLiked = like ? true : false;
-//       }));
-//     });
-//     return Promise.all(promises);
-//   })
-//   .then(function(){
-//     //send them to the client in JSON format
-//     res.json(thesePosts);
-//   })
-// });
 
 var postCounter = 0;
 
-router.post('/addPost', function(req, res){
+router.post('/addPost', userAuth.isAuthenticated, function(req, res){
 	console.log('Client sends POST request \'addPost\' in posts.html');
 
 	var post1 = new Post({
@@ -224,35 +216,65 @@ router.post('/addPost', function(req, res){
 	  }
 	})
 	.then(function(){
-	    return updateContent(res);
+	    return updateContent(req, res);
 	});
 });
 
-router.post('/removePosts', function(req, res){
+router.post('/removePosts', userAuth.isAuthenticated, function(req, res){
 	console.log('Client sends POST request \'removePosts\' in posts.html');
 
     postCounter = 0;
 
     Post.remove({})
 	.then(function(){
-	    return updateContent(res);
+	    return updateContent(req, res);
 	});
 });
 
-router.post('/incrLike', function(req, res){
-  console.log('Client sends POST request \'incrLike\' for ID ' + req.body.id + ' in posts.html');
+router.post('/incrLike', userAuth.isAuthenticated, function(req, res){
+  console.log('Client sends POST request \'incrLike\' for ID ' + req.body.id + ' by user ' + req.user.email + ' in posts.html');
 
-  Post.findById(req.body.id)
-  .then(function(post){
-    post.likeCount++;
-    return post.save(post);
-  })
-  .then(function(post){
-    res.json({id: req.body.id, count: post.likeCount});
+  Like.findOne({userId: req.user.id, postId: req.body.id})
+  .then(function(like){
+    if (!like){
+      //go get the post record
+      Post.findById(req.body.id)
+      .then(function(post){
+        //increment the like count
+        post.likeCount++;
+        //save the record back to the database
+        return post.save(post);
+      })
+      .then(function(post){
+        var like = new Like();
+        like.userId = req.user.id;
+        like.postId = req.body.id;
+        like.save();
+        
+        //a successful save returns back the updated object
+        return res.json({id: req.body.id, count: post.likeCount});  
+      })
+    } else {
+        return res.json({id: req.body.id, count: -1});  
+    }
   })
   .catch(function(err){
     console.log(err);
-  });
+  })
+});
+
+//* TODO: Big refactoring needed!
+router.post('/getmenu', function(req, res) {
+	console.log('Client sends POST request \'getmenu\'');
+	// res.json('<ul class="nav navbar-nav navbar-right">' +
+	// 				'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'posts\')"><img id="like" src="img/Like.png" alt="Like Button"></a></li>'+
+	// 				'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'profile\')"><img id="profile" src="img/Profile.png" alt="Profile Button"></a></li>' +
+	// 			'</ul>')
+				
+	res.json('<ul class="nav navbar-nav navbar-right">' +
+					'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'join\')">Register</a></li>' +
+					'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'signin\')">Sign In</a></li>' +
+				'</ul>')
 });
 
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
