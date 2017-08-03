@@ -2,7 +2,30 @@
 
 <div class="container-fluid" style="line-height:30px; margin:0px 0px 20px 0px;">
 	<button type="button" class="btn btn-default navbar-right" style="margin:0px 0px 0px 10px;" onclick="onRemovePosts()">Clear all</button>
-	<button type="button" class="btn btn-default navbar-right" style="margin:0px 10px 0px 0px;" onclick="onAddPost()">Add post</button>
+	<button type="button" class="btn btn-default navbar-right" style="margin:0px 10px 0px 0px;"
+		data-toggle="modal" data-target="#myModal">Add post</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal-dialog">
+	
+	  <!-- Modal content-->
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      <h4 class="modal-title">Add a Picture</h4>
+	    </div>
+	    <div class="modal-body">
+	        <form id="uploadForm" enctype="multipart/form-data" name="uploadForm" novalidate>
+	            <input type="file" name="userPhoto" id="userPhoto" />
+	        </form>
+	    </div>
+	    <div class="modal-footer">
+	      <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onImageUpload();">Upload</button>
+	    </div>
+	  </div>
+	</div>
 </div>
 
 <div id="postsContent"><script>onContentLoad()</script></div>

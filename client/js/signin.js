@@ -1,5 +1,5 @@
-/*global $*/
-function handleSigninAttempt(){
+/*global $ onGetMenu*/
+function handleSigninAttempt() {
     var email = $('#email').val();
     var password = $('#password').val();
     
@@ -14,9 +14,8 @@ function handleSigninAttempt(){
                 $('#bodyContent').html('');
                 $("#bodyContent").load("posts.html");
 
-				//* TODO: change properly!
-				// $('#menuContent').html('');
-				// $("#menuContent").load("usermenu.html");
+				//* should exist somewhere:
+				onGetMenu();
             } else {
                 $('#error').html(auth.message);
                 $('#email').html('');
@@ -25,7 +24,7 @@ function handleSigninAttempt(){
         })
         .catch(function(err){
             console.log(err);
-        })
+        });
     } else {
         $('#error').html('Please provide both username and password');
     }

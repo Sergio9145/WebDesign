@@ -1,5 +1,5 @@
-/*global $*/
-function handleJoinAttempt(){
+/*global $ onGetMenu*/
+function handleJoinAttempt() {
     var email = $('#email').val();
     var password = $('#password').val();
     var repeatPassword = $('#repeat_password').val();
@@ -15,9 +15,8 @@ function handleJoinAttempt(){
                 $('#bodyContent').html('');
                 $("#bodyContent").load("posts.html");
 
-				//* TODO: change properly!
-				// $('#menuContent').html('');
-				// $("#menuContent").load("usermenu.html");
+				//* should exist somewhere:
+				onGetMenu();
             } else {
                 $('#error').html(auth.message);
                 $('#email').html('');
@@ -27,7 +26,7 @@ function handleJoinAttempt(){
         })
         .catch(function(err){
             console.log(err);
-        })
+        });
     } else {
         $('#error').html('Please provide both username and password and ensure passwords match.');
     }

@@ -1,3 +1,4 @@
+/*global $*/
 /* Function used to update user's page on POST-requests */
 function updateContent(posts){
     //jQuery function to set the innerHTML of the div with id = 'postsContent' to empty
@@ -14,8 +15,8 @@ function updateContent(posts){
         $('#postsContent').append(
             '<nav class="navbar navbar-default" style="width:490px; margin:20px auto;">' +
             '<div style="margin:20px;" data-postId="' + post._id + '">' +
-            '<img src="' + post.image + '"/>' +
-            '<div class="container-fluid" style="padding:0px;margin:10px 0 0 0;">' +
+            '<img src="' + post.image + '" width="450" height="450"/>' +
+            '<div class="container-fluid" style="padding:0px; margin:10px 0 0 0;">' +
             '<p><b>' + post.comment + '</b> ' + lorem + ' <b>Post ID:</b> ' + post._id + '.</p></div>' +
             '<ul class="nav navbar-nav navbar-right">' +
                 '<li><p class="navbar-text" id="ilikethis">' + likeString + '</p></li>' +
@@ -45,23 +46,23 @@ function onContentLoad(){
     });
 } // onContentLoad()
 
-function onAddPost(){
-    //start a promise chain
-    Promise.resolve()
-    .then(function(){
-        //jQuery function to request all the posts from the server
-        //the 'return' is required. Otherwise, the subsequent then will not wait for this to complete
-        return $.post('addPost');
-    })
-    //when the server responds, we'll execute this code
-    .then(function(posts){
-    	return updateContent(posts);
-    })
-    .catch(function(err){
-        //always include a catch for exceptions
-        console.log(err);
-    });
-} // onAddPost()
+// function onAddPost(){
+//     //start a promise chain
+//     Promise.resolve()
+//     .then(function(){
+//         //jQuery function to request all the posts from the server
+//         //the 'return' is required. Otherwise, the subsequent then will not wait for this to complete
+//         return $.post('addPost');
+//     })
+//     //when the server responds, we'll execute this code
+//     .then(function(posts){
+//     	return updateContent(posts);
+//     })
+//     .catch(function(err){
+//         //always include a catch for exceptions
+//         console.log(err);
+//     });
+// } // onAddPost()
 
 function onRemovePosts(){
     Promise.resolve()
@@ -90,8 +91,6 @@ function onLikeClick(id){
     })
     .then(function(like){
         //jQuery provides a nice convenience methot for easily setting the count to the value returned
-    	// if (like.count > 0)
-     //   	$('#like' + like.id).html(like.count);
     	return onContentLoad();
     })
     .catch(function(err){
@@ -99,3 +98,35 @@ function onLikeClick(id){
         console.log(err);
     });
 } // onLikeClick()
+
+//upload picture handler
+function onImageUpload(){
+    //go get the data from the form
+    var form = new FormData($("#uploadForm")[0]);
+    
+    //we can post this way as well as $.post
+    Promise.resolve()
+    .then(function(){
+		$.ajax({
+		        url: '/upload',
+		        method: "POST",
+		        dataType: 'json',
+		        //the form object is the data
+		        data: form,
+		        //we want to send it untouched, so this needs to be false
+		        processData: false,
+		        contentType: false,
+		        //add a message 
+		        success: function(result){},
+		        error: function(er){}
+		});
+    })
+    //when the server responds, we'll execute this code
+    .then(function(posts){
+    	return updateContent(posts);
+    })
+    .catch(function(err){
+        //always include a catch for exceptions
+        console.log(err);
+    });
+} // onImageUpload()

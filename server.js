@@ -11,6 +11,8 @@ const path = require('path');
 // express related
 const express = require('express');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+const Guid = require('guid');
 //session
 const session = require('express-session');  
 const mongoSession = require('connect-mongodb-session')(session);
@@ -54,6 +56,8 @@ router.use(session({
 router.use(passport.initialize());
 router.use(passport.session());
 userAuth.init(passport);
+//add file upload support
+router.use(fileUpload());
 
 // tell the router how to handle a get request to the signin page
 // router.get('/signin', function(req, res){
@@ -161,11 +165,12 @@ router.get('/verifypassword', function(req, res){
 // Give all the posts in DB
 function updateContent(req, res)
 {
-  var thesePosts;
-
-  //go find all the posts in the database
-  Post.find({})
-  .then(function(posts){
+    console.log('Inside updateContent()');
+    var thesePosts;
+    
+    //go find all the posts in the database
+    Post.find({})
+    .then(function(posts){
     thesePosts = posts;
     var promises = [];
     thesePosts.forEach(function(post){
@@ -179,11 +184,11 @@ function updateContent(req, res)
       }));
     });
     return Promise.all(promises);
-  })
-  .then(function(){
+    })
+    .then(function(){
     //send them to the client in JSON format
     return res.json(thesePosts);
-  })
+    })
 }
 
 // Handle a POST-request to /postsContent
@@ -192,33 +197,43 @@ router.post('/postsContent', userAuth.isAuthenticated, function(req, res){
     updateContent(req, res);
 });
 
-var postCounter = 0;
-
-router.post('/addPost', userAuth.isAuthenticated, function(req, res){
-	console.log('Client sends POST request \'addPost\' in posts.html');
-
-	var post1 = new Post({
-		userId: req.user.id,
-		image: 'img/kitty' + (postCounter%5 + 1) + '.jpg',
-		comment: 'Cool picture comment #' + (postCounter + 1) + '!',
-		likeCount: 0,
-		feedbackCount: 0
-	});
-	
-    postCounter++;
-
-    post1.save(function(err) {
-	  if (err) {
-	    console.log(err);
-	  }
-	  else {
-	    console.log('Post #' + postCounter + ' created!');
-	  }
-	})
-	.then(function(){
-	    return updateContent(req, res);
-	});
+// Handle a POST-request to /postsContent
+router.post('/logout', userAuth.isAuthenticated, function(req, res){
+    console.log('Server receives POST request \'logout\' in posts.html');
+	//* TODO: Make more versatile:
+    var response = {success: false, message: ''};
+	req.session.destroy();
+	response.success = true;
+    response.message = 'logged out';
+    res.json(response);
 });
+
+//* Old code:
+// router.post('/addPost', userAuth.isAuthenticated, function(req, res){
+// 	console.log('Client sends POST request \'addPost\' in posts.html');
+
+// 	var post1 = new Post({
+// 		userId: req.user.id,
+// 		image: 'img/kitty' + (postCounter%5 + 1) + '.jpg',
+// 		comment: 'Cool picture comment #' + (postCounter + 1) + '!',
+// 		likeCount: 0,
+// 		feedbackCount: 0
+// 	});
+	
+//     postCounter++;
+
+//     post1.save(function(err) {
+// 	  if (err) {
+// 	    console.log(err);
+// 	  }
+// 	  else {
+// 	    console.log('Post #' + postCounter + ' created!');
+// 	  }
+// 	})
+// 	.then(function(){
+// 	    return updateContent(req, res);
+// 	});
+// });
 
 router.post('/removePosts', userAuth.isAuthenticated, function(req, res){
 	console.log('Client sends POST request \'removePosts\' in posts.html');
@@ -263,18 +278,97 @@ router.post('/incrLike', userAuth.isAuthenticated, function(req, res){
   })
 });
 
-//* TODO: Big refactoring needed!
+var postCounter = 0;
+
+//tell the router how to handle a post request to upload a file
+router.post('/upload', userAuth.isAuthenticated, function(req, res) {
+  var response = {success: false, message: ''};
+  
+  if (req.files){
+    // The name of the input field is used to retrieve the uploaded file 
+    var userPhoto = req.files.userPhoto;
+    //invent a unique file name so no conflicts with any other files
+    var guid = Guid.create();
+    //figure out what extension to apply to the file
+    var extension = '';
+    switch(userPhoto.mimetype){
+      case 'image/jpeg':
+        extension = '.jpg';
+        break;
+      case 'image/png':
+        extension = '.png';
+        break;
+      case 'image/bmp':
+        extension = '.bmp';
+        break;
+      case 'image/gif':
+        extension = '.gif';
+        break;
+    }
+    
+    //if we have an extension, it is a file type we will accept
+    if (extension){
+      //construct the file name
+      var filename = guid + extension;
+      // Use the mv() method to place the file somewhere on your server 
+      userPhoto.mv('./client/img/' + filename, function(err) {
+        //if no error
+        if (!err){
+			var post1 = new Post({
+				userId: req.user.id,
+				image: './img/' + filename,
+				comment: 'Cool picture comment #' + (postCounter + 1) + '!',
+				likeCount: 0,
+				feedbackCount: 0
+			});
+
+		    postCounter++;
+
+            Promise.resolve(
+		    post1.save(function(err) {
+			  if (err) {
+			    console.log(err);
+			  }
+			  else {
+			    console.log('Post #' + postCounter + ' created!');
+			  }
+			}))
+			.then(function(){
+			    return updateContent(req, res);
+			});
+        } else {
+          response.message = 'internal error';
+          res.json(response);
+        }
+      });
+    } else {
+      response.message = 'unsupported file type';
+      res.json(response);
+    }
+  } else {
+    response.message = 'no files';
+    res.json(response);
+  }
+});
+
 router.post('/getmenu', function(req, res) {
-	console.log('Client sends POST request \'getmenu\'');
-	// res.json('<ul class="nav navbar-nav navbar-right">' +
-	// 				'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'posts\')"><img id="like" src="img/Like.png" alt="Like Button"></a></li>'+
-	// 				'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'profile\')"><img id="profile" src="img/Profile.png" alt="Profile Button"></a></li>' +
-	// 			'</ul>')
-				
-	res.json('<ul class="nav navbar-nav navbar-right">' +
+	if (!req.isAuthenticated())
+	{
+	    console.log('Client sends POST request \'getmenu\' and is NOT authenticated');
+		res.json('<ul class="nav navbar-nav navbar-right">' +
 					'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'join\')">Register</a></li>' +
 					'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'signin\')">Sign In</a></li>' +
 				'</ul>')
+	}
+	else
+	{
+	    console.log('Client sends POST request \'getmenu\' and is authenticated');
+		res.json('<ul class="nav navbar-nav navbar-right">' +
+					'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'posts\')"><img id="like" src="img/Like.png" alt="Like Button"></a></li>'+
+					'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'profile\')"><img id="profile" src="img/Profile.png" alt="Profile Button"></a></li>' +
+					'<li><a class="a_icon" href="javascript:onLogout()">Logout</a></li>' +
+				'</ul>')
+	}
 });
 
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){

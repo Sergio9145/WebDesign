@@ -27,14 +27,10 @@ module.exports.init = function(passport){
 module.exports.isAuthenticated = function (req, res, next) {
     console.log('Check if we have an authenticated user:');
 	// if user is authenticated in the session 
-	if (req.isAuthenticated()){
+	if (req.isAuthenticated()) {
 	    console.log('User is authenticated!');
         //allow them to proceed
         next();
-    } else {
-	    console.log('User is NOT authenticated! Redirecting to Sign in page...');
-        // if the user is not authenticated then redirect him to the login page
-        $.post('/signin');
     }
 }
 
