@@ -47,7 +47,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 //add session support
 router.use(session({
-  secret: process.env.SESSION_SECRET || 'mySecretKey', 
+  secret: process.env.SESSION_SECRET || 'Houston, We h@ve a pr0b1em!', 
   store: mongoSessionStore,
   resave: true,
   saveUninitialized: false
@@ -58,12 +58,6 @@ router.use(passport.session());
 userAuth.init(passport);
 //add file upload support
 router.use(fileUpload());
-
-// tell the router how to handle a get request to the signin page
-// router.get('/signin', function(req, res){
-//   console.log('client requests signin');
-
-// });
 
 //tell the router how to handle a post request from the signin page
 router.post('/signin', function(req, res, next) {
@@ -87,11 +81,6 @@ router.post('/signin', function(req, res, next) {
   })(req, res, next);
 });
 
-//tell the router how to handle a get request to the join page
-// router.get('/join', function(req, res){
-//   console.log('client requests join');
-//   res.sendFile(path.join(__dirname, 'client/view', 'join.html'));
-// });
 
 //tell the router how to handle a post request to the join page
 router.post('/join', function(req, res, next) {
@@ -165,7 +154,6 @@ router.get('/verifypassword', function(req, res){
 // Give all the posts in DB
 function updateContent(req, res)
 {
-    console.log('Inside updateContent()');
     var thesePosts;
     
     //go find all the posts in the database
@@ -193,13 +181,13 @@ function updateContent(req, res)
 
 // Handle a POST-request to /postsContent
 router.post('/postsContent', userAuth.isAuthenticated, function(req, res){
-    console.log('Client sends POST request \'postsContent\' in posts.html');
+    console.log('Server receives a POST request \'postsContent\' from posts.html');
     updateContent(req, res);
 });
 
 // Handle a POST-request to /postsContent
 router.post('/logout', userAuth.isAuthenticated, function(req, res){
-    console.log('Server receives POST request \'logout\' in posts.html');
+    console.log('Server receives a POST request \'logout\' from posts.html');
 	//* TODO: Make more versatile:
     var response = {success: false, message: ''};
 	req.session.destroy();
@@ -208,35 +196,8 @@ router.post('/logout', userAuth.isAuthenticated, function(req, res){
     res.json(response);
 });
 
-//* Old code:
-// router.post('/addPost', userAuth.isAuthenticated, function(req, res){
-// 	console.log('Client sends POST request \'addPost\' in posts.html');
-
-// 	var post1 = new Post({
-// 		userId: req.user.id,
-// 		image: 'img/kitty' + (postCounter%5 + 1) + '.jpg',
-// 		comment: 'Cool picture comment #' + (postCounter + 1) + '!',
-// 		likeCount: 0,
-// 		feedbackCount: 0
-// 	});
-	
-//     postCounter++;
-
-//     post1.save(function(err) {
-// 	  if (err) {
-// 	    console.log(err);
-// 	  }
-// 	  else {
-// 	    console.log('Post #' + postCounter + ' created!');
-// 	  }
-// 	})
-// 	.then(function(){
-// 	    return updateContent(req, res);
-// 	});
-// });
-
 router.post('/removePosts', userAuth.isAuthenticated, function(req, res){
-	console.log('Client sends POST request \'removePosts\' in posts.html');
+	console.log('Server receives a POST request \'removePosts\' from posts.html');
 
     postCounter = 0;
 
@@ -247,7 +208,7 @@ router.post('/removePosts', userAuth.isAuthenticated, function(req, res){
 });
 
 router.post('/incrLike', userAuth.isAuthenticated, function(req, res){
-  console.log('Client sends POST request \'incrLike\' for ID ' + req.body.id + ' by user ' + req.user.email + ' in posts.html');
+  console.log('Server receives a POST request \'incrLike\' for ID ' + req.body.id + ' by user ' + req.user.email + ' from posts.html');
 
   Like.findOne({userId: req.user.id, postId: req.body.id})
   .then(function(like){
@@ -280,7 +241,7 @@ router.post('/incrLike', userAuth.isAuthenticated, function(req, res){
 
 var postCounter = 0;
 
-//tell the router how to handle a post request to upload a file
+//* Tell the router how to handle a post request to upload a file
 router.post('/upload', userAuth.isAuthenticated, function(req, res) {
   var response = {success: false, message: ''};
   
@@ -354,7 +315,7 @@ router.post('/upload', userAuth.isAuthenticated, function(req, res) {
 router.post('/getmenu', function(req, res) {
 	if (!req.isAuthenticated())
 	{
-	    console.log('Client sends POST request \'getmenu\' and is NOT authenticated');
+	    console.log('Server receives a POST request \'getmenu\' and user is NOT authenticated');
 		res.json('<ul class="nav navbar-nav navbar-right">' +
 					'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'join\')">Register</a></li>' +
 					'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'signin\')">Sign In</a></li>' +
@@ -362,7 +323,7 @@ router.post('/getmenu', function(req, res) {
 	}
 	else
 	{
-	    console.log('Client sends POST request \'getmenu\' and is authenticated');
+	    console.log('Server receives a POST request \'getmenu\' and user is authenticated');
 		res.json('<ul class="nav navbar-nav navbar-right">' +
 					'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'posts\')"><img id="like" src="img/Like.png" alt="Like Button"></a></li>'+
 					'<li><a class="a_icon" href="javascript:ReplaceContentWith(\'profile\')"><img id="profile" src="img/Profile.png" alt="Profile Button"></a></li>' +

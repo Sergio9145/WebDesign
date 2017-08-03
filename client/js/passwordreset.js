@@ -1,5 +1,5 @@
 /*global $*/
-function handleResetAttempt(){
+function onPasswordReset(){
     var email = $('#email').val();
     var password = $('#password').val();
     var repeatPassword = $('#repeat_password').val();
@@ -10,7 +10,7 @@ function handleResetAttempt(){
             return $.post('passwordreset', {email: email, password: password});
         })
         .then(function(data){
-            $('#error').html('go check your email, dummy');
+            $('#error').html('Email has been sent.');
         })
         .catch(function(err){
             console.log(err);

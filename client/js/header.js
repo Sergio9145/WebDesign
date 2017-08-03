@@ -3,7 +3,7 @@ function ReplaceContentWith(contentPage) {
 	if (contentPage == "main")
 	{
 		$('#bodyContent').html('');
-		$("#bodyContent").load("changelog.html");
+		$("#bodyContent").load("about.html");
 	}
 	if (contentPage == "profile")
 	{
@@ -65,4 +65,4 @@ function onGetMenu(){
         //always include a catch for exceptions
         console.log(err);
     });
-} // onAddPost()
+} // onGetMenu()

@@ -1,5 +1,5 @@
 /*global $ onGetMenu*/
-function handleJoinAttempt() {
+function onJoin() {
     var email = $('#email').val();
     var password = $('#password').val();
     var repeatPassword = $('#repeat_password').val();

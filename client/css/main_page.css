@@ -8,6 +8,9 @@ a {
     text-decoration:none;
 }
 
+p {
+	text-align: justify;
+}
 /* HEADER */
 .a_btn {
     margin: 0 10 0 0;
@@ -52,17 +55,3 @@ li {
 .footer_item {
     padding: 15px;
 }
-
-/* FOR FUTURE USE:
-.icon_logo .icon_explore .icon_like .icon_profile{
-  background-image: url(sprite.png);
-  background-repeat: no-repeat;
-}
-
-.icon_logo {
-    background-repeat: no-repeat;
-    background-position: -177px 0;
-    height: 35px;
-    width: 176px;
-}
-*/

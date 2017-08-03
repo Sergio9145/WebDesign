@@ -1,5 +1,5 @@
 /*global $ onGetMenu*/
-function handleSigninAttempt() {
+function onSignIn() {
     var email = $('#email').val();
     var password = $('#password').val();
     
